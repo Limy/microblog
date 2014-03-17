@@ -15,6 +15,10 @@ SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir, 'app.db')
 SQLALCHEMY_MIGRATE_REPO = os.path.join(basedir, 'db_repository')
 WHOOSH_BASE = os.path.join(basedir, 'search.db')
 
+SQLALCHEMY_RECORD_QUERIES = True
+# slow database query threshold (in seconds)
+DATABASE_QUERY_TIMEOUT = 0.5
+
 # email server
 MAIL_SERVER = 'your.mailserver.com'
 MAIL_PORT = 25

@@ -6,6 +6,8 @@ from models import User, ROLE_USER, ROLE_ADMIN, Post
 from datetime import datetime
 from emails import follower_notification
 from config import POSTS_PER_PAGE, MAX_SEARCH_RESULTS
+from flask.ext.sqlalchemy import get_debug_queries
+from config import DATABASE_QUERY_TIMEOUT
 
 @lm.user_loader
 def load_user(id):
@@ -19,6 +21,13 @@ def before_request():
         db.session.add(g.user)
         db.session.commit()
         g.search_form = SearchForm()
+
+@app.after_request
+def after_request(response):
+    for query in get_debug_queries():
+        if query.duration >= DATABASE_QUERY_TIMEOUT:
+            app.logger.warning("SLOW QUERY: %s\nParameters: %s\nDuration: %fs\nContext: %s\n" % (query.statement, query.parameters, query.duration, query.context))
+    return response
 
 @app.errorhandler(404)
 def internal_error(error):

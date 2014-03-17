@@ -74,7 +74,7 @@ class User(db.Model):
     def followed_posts(self):
         return Post.query.join(followers, (followers.c.followed_id == Post.user_id)).filter(followers.c.follower_id == self.id).order_by(Post.timestamp.desc())
         
-    def __repr__(self):
+    def __repr__(self): # pragma: no cover
         return '<User %r>' % (self.nickname)    
         
 class Post(db.Model):
@@ -85,7 +85,7 @@ class Post(db.Model):
     timestamp = db.Column(db.DateTime)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
-    def __repr__(self):
+    def __repr__(self): # pragma: no cover
         return '<Post %r>' % (self.body)
         
 whooshalchemy.whoosh_index(app, Post)

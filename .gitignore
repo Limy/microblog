@@ -1,5 +1,7 @@
 *.pyc
 *.pyo
+*.swp
 app.db
 search.db
+test.db
 env
